@@ -1,4 +1,5 @@
 import type { TaskKey } from '@/lib/site-config'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
 
 export type TaskPageVoice = {
   eyebrow: string
@@ -9,61 +10,68 @@ export type TaskPageVoice = {
   chips: string[]
 }
 
+const C = slot4BrandConfig.collections
+
+/*
+  Voices for each task's archive. sbm is the flagship public surface —
+  every other voice inherits the library-of-collections language so the
+  site reads coherent no matter which lane data ends up in.
+*/
 export const taskPageVoices = {
-  article: {
-    eyebrow: 'Reading desk',
-    headline: 'Long-form articles with a calmer editorial rhythm.',
-    description: 'Use this page for essays, guides, explainers, and story-led posts. The layout should feel like a publication, not a directory.',
-    filterLabel: 'Choose article topic',
-    secondaryNote: 'Reading surfaces need space, hierarchy, and fewer distractions.',
-    chips: ['Editorial pacing', 'Topic filters', 'Long-read friendly'],
-  },
-  classified: {
-    eyebrow: 'Notice board',
-    headline: 'Fast-moving classifieds, offers, and time-sensitive posts.',
-    description: 'Classified content should feel quick to scan, practical, and action-oriented with less editorial decoration.',
-    filterLabel: 'Filter classified category',
-    secondaryNote: 'Prioritize urgency, short summaries, and direct browsing.',
-    chips: ['Fast scan', 'Offers', 'Action cues'],
-  },
   sbm: {
-    eyebrow: 'Saved resources',
-    headline: 'Social bookmarks arranged like curated collections.',
-    description: 'Bookmark pages should feel like shelves of useful resources, tools, references, and collections.',
-    filterLabel: 'Filter collection',
-    secondaryNote: 'Curated resources need grouping and calm metadata.',
-    chips: ['Collections', 'Resources', 'Reference flow'],
+    eyebrow: C.plural,
+    headline: `Every ${C.singular.toLowerCase()} in the library.`,
+    description: `Themed shelves of hand-picked ${C.itemPlural.toLowerCase()} — tools, references, reads — grouped so you can browse without a feed getting in the way.`,
+    filterLabel: `Filter ${C.plural.toLowerCase()}`,
+    secondaryNote: `A ${C.singular.toLowerCase()} is small on purpose. Each one is kept sharp by its ${C.memberSingular.toLowerCase()}.`,
+    chips: [`${C.plural}`, `${C.itemPlural}`, `${C.memberPlural}`, 'Hand-picked'],
   },
   profile: {
-    eyebrow: 'People and profiles',
-    headline: 'Profiles with identity, trust, and reputation cues.',
-    description: 'Profile pages should make people, brands, and entities feel discoverable rather than buried in a generic feed.',
-    filterLabel: 'Filter profile category',
-    secondaryNote: 'Make identity and credibility visible before the grid begins.',
-    chips: ['Identity first', 'Trust cues', 'Creator/business cards'],
+    eyebrow: C.memberSingular,
+    headline: `${C.memberPlural} on the library.`,
+    description: `The people who keep each ${C.singular.toLowerCase()} sharp.`,
+    filterLabel: `Filter ${C.memberPlural.toLowerCase()}`,
+    secondaryNote: `Every ${C.itemSingular.toLowerCase()} has a real ${C.memberSingular.toLowerCase()} behind it.`,
+    chips: [`${C.memberPlural}`, 'Identity', 'Trust'],
   },
-  pdf: {
-    eyebrow: 'Document library',
-    headline: 'PDFs and documents presented as a useful library.',
-    description: 'PDF pages should feel like downloadable guides, reports, files, and reference material instead of normal articles.',
-    filterLabel: 'Filter document type',
-    secondaryNote: 'Document surfaces need archive cues, file context, and clear browsing.',
-    chips: ['Documents', 'Guides', 'Archive ready'],
+  article: {
+    eyebrow: 'Reading',
+    headline: `Long-form notes from across the library.`,
+    description: `Writeups tied to ${C.plural.toLowerCase()} — worth reading top to bottom, not skimming.`,
+    filterLabel: 'Filter reading',
+    secondaryNote: 'Longer reads for when you want depth over a quick link.',
+    chips: ['Long-form', 'Deep reads', `${C.plural}`],
+  },
+  classified: {
+    eyebrow: 'Notices',
+    headline: 'Time-sensitive posts.',
+    description: 'Quick, dated posts kept separate from the evergreen shelves.',
+    filterLabel: 'Filter notices',
+    secondaryNote: 'Everything here has a shelf life.',
+    chips: ['Quick', 'Dated'],
   },
   listing: {
-    eyebrow: 'Business directory',
-    headline: 'Business listings built for discovery and comparison.',
-    description: 'Listing pages should behave like a directory with trust cues, metadata, and a practical search rhythm.',
-    filterLabel: 'Filter business category',
-    secondaryNote: 'Prioritize comparison, location, and direct action paths.',
-    chips: ['Directory', 'Compare', 'Business discovery'],
+    eyebrow: 'Directory',
+    headline: 'Organised entries you can compare.',
+    description: 'Practical detail — the kind of information you want in a row, not a paragraph.',
+    filterLabel: 'Filter directory',
+    secondaryNote: 'Rows over feeds, always.',
+    chips: ['Directory', 'Practical'],
   },
   image: {
-    eyebrow: 'Visual gallery',
-    headline: 'Image posts with a gallery-first browsing experience.',
-    description: 'Image pages should lead with visual impact, stronger cards, and a portfolio-like rhythm.',
-    filterLabel: 'Filter visual category',
-    secondaryNote: 'Let images carry the page before long text does.',
-    chips: ['Gallery', 'Visual-first', 'Portfolio mood'],
+    eyebrow: 'Gallery',
+    headline: 'Visual pieces from the archive.',
+    description: `${C.itemPlural} that are worth looking at, not just reading.`,
+    filterLabel: 'Filter gallery',
+    secondaryNote: 'Image-first shelves.',
+    chips: ['Gallery', 'Visual'],
+  },
+  pdf: {
+    eyebrow: 'Documents',
+    headline: 'Downloadable references.',
+    description: 'Guides, papers and long documents worth keeping.',
+    filterLabel: 'Filter documents',
+    secondaryNote: 'Persistent reference material.',
+    chips: ['Documents', 'Reference'],
   },
 } satisfies Record<TaskKey, TaskPageVoice>

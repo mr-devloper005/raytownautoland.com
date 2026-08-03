@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   AtSign,
   Bookmark,
-  ExternalLink,
   Globe,
   Hash,
   Home,
@@ -13,7 +12,6 @@ import {
   ShieldCheck,
   Slash,
   Sparkles,
-  Tag,
 } from 'lucide-react'
 import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
@@ -173,8 +171,7 @@ function BookmarkDetail({
   const website = getField(post, ['website', 'url', 'link'])
   const domain = getDomain(website)
   const collection = categoryOf(post, C.singular)
-  const tags = Array.isArray(post.tags) ? post.tags.slice(0, 10) : []
-  const bodyRaw = getBody(post)
+const bodyRaw = getBody(post)
   const body = formatBody(bodyRaw)
   const verified = Boolean(getField(post, ['verified', 'featured']) || website)
   const summary = stripHtml(summaryOf(post))
@@ -209,7 +206,7 @@ function BookmarkDetail({
           style={{ background: 'radial-gradient(circle, var(--tk-accent) 0%, transparent 65%)' }}
           aria-hidden="true"
         />
-        <div className="relative mx-auto grid max-w-[var(--editable-container)] gap-16 px-6 pb-24 pt-20 sm:pt-24 lg:grid-cols-[1.35fr_0.65fr] lg:gap-20 lg:px-10 lg:pb-28 lg:pt-28">
+        <div className="relative mx-auto max-w-[var(--editable-container)] px-6 pb-24 pt-20 sm:pt-24 lg:px-10 lg:pb-28 lg:pt-28">
           <div className="min-w-0">
             <EditableReveal index={0}>
               <div className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.28em] text-[var(--tk-accent)]">
@@ -228,51 +225,6 @@ function BookmarkDetail({
             </EditableReveal>
           </div>
 
-          {/* Browser-preview card */}
-          <EditableReveal index={3}>
-            <aside className="lg:sticky lg:top-24 lg:self-start">
-              <div className="overflow-hidden rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] shadow-[0_30px_90px_rgba(0,0,0,0.35)]">
-                {/* Fake browser chrome */}
-                <div className="flex items-center gap-2 border-b border-[var(--tk-line)] bg-[var(--tk-raised)] px-4 py-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--tk-line)]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--tk-line)]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--tk-accent)] opacity-60" />
-                  <div className="editable-mono ml-3 flex flex-1 items-center gap-1.5 truncate rounded-full border border-[var(--tk-line)] bg-[var(--tk-bg)] px-3 py-1 text-[11px] text-[var(--tk-muted)]">
-                    <Globe className="h-3 w-3 text-[var(--tk-accent)]" />
-                    <span className="truncate">{domain || 'library.local'}</span>
-                  </div>
-                </div>
-                <div className="p-7">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--tk-muted)]">{C.itemSingular}</p>
-                  <p className="editable-display mt-3 line-clamp-3 text-2xl font-medium leading-tight tracking-[-0.02em]">{post.title}</p>
-                  <p className="mt-4 text-sm leading-[1.6] text-[var(--tk-muted)]">
-                    Open {domain || 'this resource'} in a new tab.
-                  </p>
-                  {website ? (
-                    <Link
-                      href={website}
-                      target="_blank"
-                      rel="noreferrer nofollow"
-                      className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--tk-accent)] px-5 py-3.5 text-sm font-medium text-[var(--tk-on-accent)] transition hover:scale-[1.02]"
-                    >
-                      Visit resource <ExternalLink className="h-4 w-4" />
-                    </Link>
-                  ) : (
-                    <div className="mt-7 rounded-full border border-dashed border-[var(--tk-line)] px-5 py-3.5 text-center text-xs text-[var(--tk-muted)]">
-                      Link pending
-                    </div>
-                  )}
-                  <div className="mt-4 flex items-center justify-between text-[11px] text-[var(--tk-muted)]">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ShieldCheck className="h-3.5 w-3.5 text-[var(--tk-accent)]" />
-                      {verified ? 'Curator-verified' : 'Awaiting review'}
-                    </span>
-                    <span className="editable-mono">{readMins}m read</span>
-                  </div>
-                </div>
-              </div>
-            </aside>
-          </EditableReveal>
         </div>
       </section>
 
@@ -332,27 +284,6 @@ function BookmarkDetail({
               </p>
             </EditableReveal>
           )}
-
-          {tags.length ? (
-            <EditableReveal index={3}>
-              <div className="mt-16 border-t border-[var(--tk-line)] pt-8">
-                <div className="mb-4 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--tk-muted)]">
-                  <Tag className="h-3.5 w-3.5" /> Topics
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
-                    <Link
-                      key={tag}
-                      href={`/search?q=${encodeURIComponent(tag)}`}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-line)] px-3.5 py-1.5 text-xs font-medium text-[var(--tk-text)] transition hover:border-[var(--tk-accent)] hover:text-[var(--tk-accent)]"
-                    >
-                      <Hash className="h-3 w-3 opacity-60" /> {tag}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </EditableReveal>
-          ) : null}
 
           {article ? <EditableArticleComments slug={post.slug} comments={comments} /> : null}
         </article>
